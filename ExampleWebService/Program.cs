@@ -44,4 +44,5 @@ app.UseSwaggerUI(c =>
 
 app.MapControllers();
 
+app.Urls.Add("http://0.0.0.0:8181");
 app.Run();
