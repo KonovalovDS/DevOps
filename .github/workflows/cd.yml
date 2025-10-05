@@ -1,0 +1,26 @@
+name: CD
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Sync files to VM
+        run: |
+          rsync -avz --delete ./ konovalovds@course.prafdin.ru:/home/konovalovds/devops-app -e "ssh -p 2430"
+
+      - name: Run deploy script on VM
+        run: |
+          ssh -p 2430 konovalovds@course.prafdin.ru "bash /home/konovalovds/webhook-deploy/deploy.sh"
