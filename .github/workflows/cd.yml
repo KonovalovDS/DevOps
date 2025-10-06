@@ -1,4 +1,4 @@
-name: CD
+name: CD Docker
 
 on:
   release:
@@ -22,10 +22,30 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p 2430 course.prafdin.ru >> ~/.ssh/known_hosts
 
-      - name: Sync files to VM
+      - name: Deploy Docker container on server
         run: |
-          rsync -avz --delete ./ konovalovds@course.prafdin.ru:/home/konovalovds/devops-app -e "ssh -p 2430"
+          ssh -p 2430 konovalovds@course.prafdin.ru << 'EOF'
+            # Логин в GHCR
+            echo "${GITHUB_TOKEN}" | docker login ghcr.io -u konovalovds --password-stdin
 
-      - name: Run deploy script on VM
-        run: |
-          ssh -p 2430 konovalovds@course.prafdin.ru "bash /home/konovalovds/webhook-deploy/deploy.sh"
+            APP_NAME="csharp-app"
+            IMAGE="ghcr.io/konovalovds/csharp-app:latest"
+            CONTAINER_NAME="csharp-app-container"
+            PORT=8181
+
+            if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
+              docker stop $CONTAINER_NAME
+              docker rm $CONTAINER_NAME
+            fi
+
+            docker run -d \
+              --name $CONTAINER_NAME \
+              -p $PORT:$PORT \
+              $IMAGE
+
+            echo "Waiting for app to start..."
+            sleep 5
+            curl -f http://localhost:$PORT || echo "App not responding yet"
+          EOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
