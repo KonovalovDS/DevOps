@@ -6,7 +6,8 @@ public class InMemoryWordRepository : IWordRepository
     [
         "Whisperleaf",
         "Misthorn",
-        "Glowspore"
+        "Glowspore",
+        "NewWord"
     ];
 
     public IEnumerable<string> GetAll() => _words;
