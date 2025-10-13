@@ -51,9 +51,5 @@ To run the tests, execute the following command:
 
 ```bash
 dotnet test
-```# update
-# update2
-# update3
-# update4
-# update5
-# update6
+```
+
