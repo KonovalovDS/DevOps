@@ -53,9 +53,3 @@ To run the tests, execute the following command:
 dotnet test
 ```
 
-# update6
-# update9
-# update0
-# update11
-# update12
-# update13
