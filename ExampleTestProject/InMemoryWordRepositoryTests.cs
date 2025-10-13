@@ -7,7 +7,7 @@ public class InMemoryWordRepositoryTests
     [Fact]
     public void CountTest()
     {
-        const int expectedCount = 3;
+        const int expectedCount = 4;
         var repository = new InMemoryWordRepository();
 
         var words = repository.GetAll();
@@ -22,7 +22,8 @@ public class InMemoryWordRepositoryTests
         {
             "Whisperleaf",
             "Misthorn",
-            "Glowspore"
+            "Glowspore",
+            "NewWord"
         };
         var repository = new InMemoryWordRepository();
 
