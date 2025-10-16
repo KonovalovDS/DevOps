@@ -19,7 +19,7 @@ jobs:
 
       - name: Sync files to VM
         run: |
-          rsync -avz --delete ./ konovalovds@course.prafdin.ru:/home/konovalovds/devops-app -e "ssh -p 2430"
+          rsync -avz --delete ./ konovalovds@course.prafdin.ru:/home/konovalovds/DevOps -e "ssh -p 2430"
 
       - name: Run deploy script on VM
         run: |
