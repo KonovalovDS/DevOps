@@ -29,9 +29,9 @@ public class WordsController(IWordRepository wordRepository) : ControllerBase
     }
 
     /// <summary>
-    /// Adds a new word to the collection.
+    /// Adds a new word to the collection updated.
     /// </summary>
-    /// <param name="value">The word to add. Must not be null or whitespace also deleted.</param>
+    /// <param name="value">The word to add. Must not be null or whitespace.</param>
     /// <returns>
     /// A message indicating success and the total number of words after addition.
     /// </returns>
