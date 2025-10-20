@@ -5,12 +5,26 @@ on:
     types: [published]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/csharp-app
+          docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:${{ github.event.release.tag_name }} .
+
+      - name: Push Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/csharp-app
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:${{ github.event.release.tag_name }}
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
@@ -22,14 +36,16 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p 2430 course.prafdin.ru >> ~/.ssh/known_hosts
 
-      - name: Deploy Docker container on server
+      - name: Deploy on server
         run: |
           ssh -p 2430 konovalovds@course.prafdin.ru << 'EOF'
-            echo "${GITHUB_TOKEN}" | docker login ghcr.io -u konovalovds --password-stdin
-            APP_NAME="csharp-app"
             IMAGE="ghcr.io/konovalovds/csharp-app:latest"
             CONTAINER_NAME="csharp-app-container"
             PORT=8181
+
+            echo "${GITHUB_TOKEN}" | docker login ghcr.io -u konovalovds --password-stdin
+
+            docker pull $IMAGE
 
             if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
               docker stop $CONTAINER_NAME
