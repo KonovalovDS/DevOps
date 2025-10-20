@@ -20,6 +20,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Открываем порт для приложения
+ENV ASPNETCORE_URLS=http://+:8181
 EXPOSE 8181
 
 # Команда запуска приложения
