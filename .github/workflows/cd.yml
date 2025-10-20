@@ -17,12 +17,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/csharp-app
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/devops-app
           docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:${{ github.event.release.tag_name }} .
 
       - name: Push Docker image
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/csharp-app
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/devops-app
           docker push $IMAGE_NAME:latest
           docker push $IMAGE_NAME:${{ github.event.release.tag_name }}
 
