@@ -39,8 +39,8 @@ jobs:
       - name: Deploy on server
         run: |
           ssh -p 2430 konovalovds@course.prafdin.ru << 'EOF'
-            IMAGE="ghcr.io/konovalovds/csharp-app:latest"
-            CONTAINER_NAME="csharp-app-container"
+            IMAGE="ghcr.io/konovalovds/devops-app:latest"
+            CONTAINER_NAME="devops-app"
             PORT=8181
 
             echo "${GITHUB_TOKEN}" | docker login ghcr.io -u konovalovds --password-stdin
