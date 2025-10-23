@@ -13,7 +13,7 @@ namespace ExampleWebService.Controllers;
 public class WordsController(IWordRepository wordRepository) : ControllerBase
 {
     /// <summary>
-    /// Retrieves the list of all stored words updated.
+    /// Retrieves the list of all stored words.
     /// </summary>
     /// <returns>
     /// A JSON array containing all words.
@@ -29,7 +29,7 @@ public class WordsController(IWordRepository wordRepository) : ControllerBase
     }
 
     /// <summary>
-    /// Adds a new word to the collection updated.
+    /// Adds a new word to the collection.
     /// </summary>
     /// <param name="value">The word to add. Must not be null or whitespace.</param>
     /// <returns>
