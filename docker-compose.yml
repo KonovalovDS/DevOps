@@ -13,7 +13,7 @@ services:
       - "5432:5432"
 
   backend:
-    image: ghrc.io/konovalovds/devops-app:latest
+    image: ghcr.io/konovalovds/devops-app:latest
     depends_on:
       - db
     environment:
