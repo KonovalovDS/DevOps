@@ -29,7 +29,7 @@ public class WordsController(IWordRepository wordRepository) : ControllerBase
     }
 
     /// <summary>
-    /// Adds a new word to the collection.
+    /// Adds a new word to the collection update.
     /// </summary>
     /// <param name="value">The word to add. Must not be null or whitespace.</param>
     /// <returns>
