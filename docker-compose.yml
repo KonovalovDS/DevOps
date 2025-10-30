@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__Postgres: "Host=db;Database=mydb;Username=user;Password=password"
+    ports:
+      - "8181:8181"
+
+volumes:
+  db_data:
